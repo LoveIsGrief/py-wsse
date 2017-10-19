@@ -16,7 +16,7 @@ from .exceptions import SignatureVerificationFailed
 from .xml import ensure_id, ns
 
 
-def sign(envelope, keyfile, certfile):
+def sign(envelope, keyfile, certfile, key_pass=None):
     """Sign given SOAP envelope with WSSE sig using given key and cert.
 
     Sign the wsu:Timestamp node in the wsse:Security header and the soap:Body;
@@ -123,7 +123,7 @@ def sign(envelope, keyfile, certfile):
     x509_data.append(x509_certificate)
 
     # Load the signing key and certificate.
-    key = xmlsec.Key.from_file(keyfile, xmlsec.KeyFormat.PEM)
+    key = xmlsec.Key.from_file(keyfile, xmlsec.KeyFormat.PEM, key_pass)
     key.load_cert_from_file(certfile, xmlsec.KeyFormat.PEM)
 
     # Insert the Signature node in the wsse:Security header.
